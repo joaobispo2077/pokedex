@@ -126,7 +126,7 @@ Após isso, entre no diretório do seu App com `cd nome-do-seu-app`.
   yarn add next react react-dom
   ```  
     - 2º  Prepare os scripts necessários no arquivo `package.json`:
-  ```
+    ```json
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -187,7 +187,7 @@ Salvo execeção de que se você utilizou o comando `npx create-next-app pokedex
 Podemos perceber que de pastas temos uma chamda styles para guardarmos o CSS dos projetos temos um README.md com instruções de manuseio do projeto em inglês, também .gitignore com template pronto para ignorar arquivos e pastas que não serão interessantes versionar.
 
 Ao observar o arquivo `package.json`, você possuirá algo semelhante a isso:
-```
+```json
 {
   "name": "pokedex",
   "version": "0.1.0",
@@ -229,7 +229,7 @@ Agora que temos nosso app rodando, vamos apagar tudo que não utilizaremos. Prim
 │       Home.module.css
 ```
 
-Ao remover esses arquivos, se o seu app estiver rodando, vão ocorrer erros de compilação por esses arquivos estarem sendo utilizados, então agora vamos remover a referência a esses arquivos.
+Ao remover esses arquivos, se o seu app estiver rodando, vão ocorrer erros de compilação por esses arquivos estarem sendo referenciados em alguns locais, então agora vamos remover a referência a esses arquivos.
 
 Entrando em `./pages/index.js`, encontraremos um arquivo que exporta uma função chamada "Home" que retorna JSX, então no topo do arquivo removerei a seguinte importação:
 ```
@@ -238,7 +238,7 @@ import styles from '../styles/Home.module.css'
 
 Também removerei todo o conteúdo do retorno dessa função Home para um Fragmento contendo o componente Head com o title do app tendo como "irmão" uma tag main e uma tag footer referenciando o criador do projeto, ficando o seguinte o resultado no arquivo `./pages/index.js`:
 
-```
+```jsx
 import Head from 'next/head'
 
 export default function Home() {
@@ -269,13 +269,51 @@ export default MyApp
 vai notar que seu projeto voltou a compilar, e agora é exibido na tela "Projeto desenvolvido por seu-nome".
 
 Agora que temos a estrutura do projeto mais limpa, facilita a visualização do que temos em cada pasta e arquivo. 
+
 ---------
 
-### Entendendo e utilizando o File-System Router
+### Entendendo o básico e utilizando o File-System Router
 
-Lembro que da primeira vez que ouvi "file-system router", eu imaginei quer teria que fazer algum mapeamento das pastas e arquivos para algum tipo de função consumir esse mapeamento e gerar as rotas. Mas,na verdade, é definitivamente muito mais simples que isso.
+Lembro que da primeira vez que ouvi "file-system router", eu imaginei que teria que fazer algum mapeamento das pastas e arquivos para algum tipo de função consumir esse mapeamento e gerar as rotas. Mas, na verdade, é muito mais simples que isso.
 
-No Next.JS esse File-system router já vem configurado e basta você utilizá-lo e para usá-lo, basta criar um arquivo que retorna JSX dentro da pasta `./pages`
+No Next.JS, esse File-system router já vem configurado e basta você utilizá-lo. E para usá-lo, basta criar um arquivo que retorna JSX dentro da pasta `./pages`. 
+
+Você também pode criar uma pasta com um arquivo index.js e isso se tornará uma rota também. Irei adicionar dentro da pasta pages, uma pasta chamada pokemon,s e dentro dessa pasta pokemons, um arquivo index.js (`./pages/pokemon/index.js`) com o seguinte JSX:
+
+```jsx
+import Head from 'next/head'
+
+export default function Pokemons() {
+  return (
+    <>
+      <Head>
+        <title>Pokémons</title>
+      </Head>
+      <main>
+        <section>
+          <h1>Lista de pokémons</h1>
+
+        </section>
+      </main>
+      <footer>
+        Projeto desenvolvido por seu-nome
+      </footer>
+    </>
+  )
+}
+```
+
+Com essa página pronta, basta acessar o seu `http://localhost:3000/pokemons`, que vai encontrar o seguinte conteúdo:
+
+```
+Lista de pokémons
+
+Projeto desenvolvido por seu-nome
+```
+
+Por questões de organização da estrutura desse mini projeto, vou parar a execução do projeto e criar na raíz do projeto uma pasta chamada `src` e mover a pasta `pages`para dentro da src, ficando com `./src/pages`.
+
+Agora, basta utilizar do comando `yarn dev` ou `npm run dev` para executar novamente a aplicação e o Next.JS encontrará automaticamente a pasta "pages" e construirá as páginas da sua aplicação.
 
 ## Referências:
 - [Documentação oficial do Next.JS](https://nextjs.org/docs/getting-started)
