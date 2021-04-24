@@ -23,9 +23,13 @@
 > 5.2 [Usando o create-next-app](#create-next-app)
 > 5.2 [Limpando estrutura do projeto](#clean-app)
 > 5.3 [Utilizando o File System Routing](#fsr)
-> 5.4 [Implementando SPA](#spa)
-> 5.5 [Recurso de SSR](#ssr)
-> 5.6 [A dádiva do SSG](#ssg)
+> 5.4 [Implementando navegação SPA](#spa)
+> 5.5 [Componentizando footer](#componentization)
+> 5.6 [Estilizando footer](#stylish)
+> 5.6.1 [Sim, você pode usar bibiliotecas que utilizava com o React! Usando styled-components com Next.JS](#styled-components)
+> 5.7 [Um pouco de CSR](#csr)
+> 5.8 [Recurso de SSR](#ssr)
+> 5.9 [A dádiva do SSG](#ssg)
 > 6 [Extras](#extras)
 > 6.1 [Integrações com a Vercel e a Netlify e o deploy](#integracao-e-deploy)
 > 6.2 [Um pouco mais sobre Serverless](#serverless)
@@ -40,16 +44,14 @@ Atualmente ele é mantido pela Vercel e em seu core há como principal proposta 
 
 ### Por quê utilizá-lo?
 
-- *Setup zero config* -> Quando iniciamos um projeto React.JS nos precisamos configurar um esquema de roteamento para navegação entre páginas, normalmente utiliza-se (react-router-dom)[inserir-link-roteamento-react4noobs], configurar o webpack, se for prefirível, configurar o Typescript e o Babel e entre outras muitas opções dependendo do web app que vcoê está produzindo. Mas, no Next.JS, como a parte da configuração é abstraída, o desenvolvedor pode focar inteiramente no desenvolvimento de novas funcionalidades.
+- *Setup zero config* -> Quando iniciamos um projeto React.JS ou um projeto front-end qualquer, nós precisamos configurar um esquema de roteamento para navegação entre páginas, normalmente no contexto do React.JS utiliza-se (react-router-dom)[inserir-link-roteamento-react4noobs], configurar o webpack, se for prefirível, configurar o Typescript e o Babel e entre outras muitas opções dependendo do web app que vcoê está produzindo. Mas, no Next.JS, como a parte da configuração é abstraída, o desenvolvedor pode focar inteiramente no desenvolvimento de novas funcionalidades.
 
 
 - *Diversos modelos de renderização* -> Permite um fluxo de trabalho produtivo e de zero configuração para utilização de diversos modelos de renderização como o Cliente-side rendering, Server-side rendering, Static Site Generation e Incremental Static Regeneration, que serão explicados ao longo desse artigo.
 
-- *File System Routing* ->
+- *File System Routing* -> A estrutura de pastas e arquivos da sua aplicação definirá as rotas dela.
 
-- *API endpoints* -> 
-
-- *Friendly deployment* -> 
+- *API endpoints* -> Uma estrutura de desenvolvimento Serverless intuitiva.
 
 - *Suporte ao Typescript* -> 
 
@@ -106,7 +108,7 @@ Esse modelo Incremental Static Regeneration (ISR - Regeneração Estática Incre
 
 ## Hora do código!
 
-Agora que entendemos um pouco sobre o que é o Next.JS, para que ele serve, quais são os principais modelos de renderização e alternativas ao Next.JS, finalmente vamos ver tudo isso na prática começando a entender como fazer o Setup do projeto.
+Agora que entendemos um pouco sobre o que é o Next.JS, para que ele serve, quais são os principais modelos de renderização presentes Next.JS. Finalmente, vamos ver tudo isso na prática e vou cobrir cada conceito em seu momento adequado, começando com como fazer o Setup do projeto.
 
 ### Formas de criar um projeto Next.JS
 
@@ -245,7 +247,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Pokédex</title>
+        <title>PokéHome</title>
       </Head>
       <main>
       </main>
@@ -303,7 +305,7 @@ export default function Pokemons() {
 }
 ```
 
-Com essa página pronta, basta acessar o seu `http://localhost:3000/pokemons`, que vai encontrar o seguinte conteúdo:
+Com essa página pronta, basta acessar no seu navegador o endereço `http://localhost:3000/pokemons`, assumindo que a sua porta 3000 não esteja sendo usada, se estiver, o Next.JS usará outra porta que encontrar livre e informará ela via terminal, que vai encontrar o seguinte conteúdo:
 
 ```
 Lista de pokémons
@@ -311,9 +313,79 @@ Lista de pokémons
 Projeto desenvolvido por seu-nome
 ```
 
-Por questões de organização da estrutura desse mini projeto, vou parar a execução do projeto e criar na raíz do projeto uma pasta chamada `src` e mover a pasta `pages`para dentro da src, ficando com `./src/pages`.
+Por questões de organização da estrutura desse mini projeto, vou parar a execução do projeto e criar na raíz do projeto uma pasta chamada `src` e mover a pasta `pages`, `public` e `styles` para dentro da src.
 
 Agora, basta utilizar do comando `yarn dev` ou `npm run dev` para executar novamente a aplicação e o Next.JS encontrará automaticamente a pasta "pages" e construirá as páginas da sua aplicação.
+
+-----
+
+### Navegando entre páginas
+
+Primeiro, podemos notar que, atualmente, está um pouco trabalhoso navegar, quando queremos acessar a página raíz da aplicação, temos que digitar no navegador `http://localhost:3000/` e quando queremos acessar a página de pokémons, temos que digitar `http://localhost:3000/pokemons`.
+
+Agora, vamos mudar isso adicionando botões de navegação nessas duas páginas. Iniciando pela página que está em `./src/pages/index.js`, vamos importar o componente `NextLink`de dentro de `next/link` e passar a propridade **href** como sendo da rota que queremos acessar ('/pokemons') e criaremos um botão dentro desse componente com o texto "Ver pokémons". Ficando com o seguinte código:
+
+```jsx
+import Head from 'next/head'
+import NextLink from 'next/link';
+
+export default function Home() {
+  return (
+    <>
+      <Head>
+        <title>PokéHome</title>
+      </Head>
+      <main>
+        <NextLink href="/pokemons">
+            <button>Ver pokémons</button>
+        </NextLink>
+      </main>
+      <footer>
+        Projeto desenvolvido por seu-nome
+      </footer>
+    </>
+  )
+}
+
+```
+
+Ao salvar o arquivo e acessar `http://localhost:3000/`, poderá utilizar clicar no botão atentamente para ir à página de pokémons. Pois, assim notará que a página não recarregou, então parabéns! Você acaba de implementar uma navegação entre páginas com o comportamento de SPA :D
+
+Se não notou a diferença, tu pode acessar a página de pokémons pelo digitando o endereço dela em seu navegador (`http://localhost:3000/pokemons`) e após isso retornar à página raíz e utilizar do botão.
+
+Para complementar essa navegação apenas de ida, podemos fazer a volta dela. Então, basta abrirmos o arquivo `./src/pages/pokemons/index.js` e importaremos o componente NextLink novamente, entretanto mudando a propriedade **href** para a rota raíz da aplicação, sendo `href="/"`, e adicionando um botão dentro do componente NextLink com o texto "Ir para a Pokéhome". Assim, ficando com o seguinte código:
+
+```jsx
+import Head from 'next/head'
+import NextLink from 'next/link';
+
+export default function Pokemons() {
+  return (
+    <>
+      <Head>
+        <title>Pokémons</title>
+      </Head>
+      <main>
+        <header>
+          <NextLink href="/">
+            <button>Ir para a Pokéhome</button>
+          </NextLink>
+        </header>
+        <section>
+          <h1>Lista de pokémons</h1>
+        </section>
+      </main>
+      <footer>
+        Projeto desenvolvido por seu-nome
+      </footer>
+    </>
+  )
+}
+```
+
+Agora, temos uma navegação com comportamento de SPA entre essas duas páginas!
+
+-----------
 
 ## Referências:
 - [Documentação oficial do Next.JS](https://nextjs.org/docs/getting-started)
