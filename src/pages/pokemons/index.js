@@ -5,9 +5,9 @@ import Footer from '../../components/Footer';
 export default function Pokemons() {
   return (
     <>
-
-      <title>Pokémons</title>
-
+      <Head>
+        <title>Pokémons</title>
+      </Head>
       <main>
         <header>
           <NextLink href="/">

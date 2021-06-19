@@ -473,7 +473,7 @@ Com isso, parabéns você acaba de criar um componente reutilizável!
 
 -------------------------------------------------------------------
 
-### Carregando estilos em um arquivo Next.JS e fontes
+### Carregando estilos e fontes em um app Next.JS
 
 Hora do CSS! Mas não tanto, pois não vamos aplicar grandes estilizações, e o foco não será o CSS em sim e sim te mostrar uma das várias formas de carregar estilos **globais** em uma aplicação Next.JS.
 
@@ -540,6 +540,10 @@ Caso queira aprofundar nas variadas formas de se utilizar CSS no Next.JS, recome
 Parabéns por ter carregado seus primeiros estilos globais no Next.js.
 
 ------------------------
+
+### Renderização na prática com Client-side-rendering
+
+Finalmente, alcançamos nossa primeira renderização com cliente-side-renderiza, mas não é muito diferente do que você provavelmente já conheceu no React.JS.
 
 ## Referências
 
