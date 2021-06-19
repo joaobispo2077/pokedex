@@ -26,10 +26,7 @@
 > 5.3 [Utilizando o File System Routing](#fsr)
 > 5.4 [Implementando navegação SPA](#spa)
 > 5.5 [Criando componentes](#componentization)
-> 5.6 [Estilizando componentes](#stylish)
-> 5.6.1 [Sim, você pode usar bibiliotecas que utilizava com o React! Usando styled-components com Next.JS](#styled-components)
-> 5.6.2 [O que é o componente Head](#head-component)
-> 5.6.3 [Adicionando fontes](#custom-fonts)
+> 5.6 [Estilização global e adicionando fontes](#stylish)
 > 5.7 [Renderizando dados com CSR](#csr)
 > 5.8 [Recurso de SSR](#ssr)
 > 5.9 [A dádiva do SSG](#ssg)
@@ -421,7 +418,7 @@ E agora podemos importar o Footer e usar o mesmo compoennte tanto no nosso index
 
 ```javascript
 
-import Head from 'next/head'
+import Head from 'next/head';
 import NextLink from 'next/link';
 import Footer from '../components/Footer';
 
@@ -442,10 +439,10 @@ export default function Home() {
 }
 ```
 
-Já página de pokémons ficará assim com a substituição do footer pelo componente de Footer:
+Já a página de pokémons ficará assim com a substituição do footer pelo componente de Footer:
 
 ```javascript
-import Head from 'next/head'
+import Head from 'next/head';
 import NextLink from 'next/link';
 import Footer from '../../components/Footer';
 
@@ -471,6 +468,78 @@ export default function Pokemons() {
 }
 
 ```
+
+Com isso, parabéns você acaba de criar um componente reutilizável!
+
+-------------------------------------------------------------------
+
+### Carregando estilos em um arquivo Next.JS e fontes
+
+Hora do CSS! Mas não tanto, pois não vamos aplicar grandes estilizações, e o foco não será o CSS em sim e sim te mostrar uma das várias formas de carregar estilos **globais** em uma aplicação Next.JS.
+
+Então, vamos fazer um reset de estilos. Criarei o arquivo `./src/styles/global.css` com o seguinte conteúdo:
+
+```css
+:root {
+  --main-background: #ecf1f8;
+  --main-font-color:#333;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  box-sizing:  border-box;
+}
+
+html, body, #__next {
+  height: 100%;
+}
+
+body {
+  font: 14px 'Bebas Neue', sans-serif;
+  background: var(--main-background);
+  color: var(--main-font-color);
+  -webkit-font-smoothing: antialiased !important;
+}
+
+ul {
+  list-style: none;
+}
+```
+
+Nesse arquivo, eu declaro 2 variáveis css com cores, tendo o intuito de utilizar uma no background e outra na cor da fonte. Após isso, elimino margin, padding e outline de todos elementos, também mudo o box-sizing para border-box para caso elementos internos não "estourem para fora" de elementos que estão contidos. Também coloco uma altura de 100% no html, no  body e na div que o next criará.
+
+Por fim, adiciono que a cor do background do body será a variável CSS de background declarada, a fonte será Bebas Neue, a cor do texto sendo a variável declarada para cor e adiciono também um antialised e desativo o estilo de listas da tag ul.
+
+Temos que fazer uma última modificação para carregar a fonte, irei alterar o _app.js (`./src/pages/_app.js`) para:
+
+```javascript
+import Head from 'next/head';
+import '../styles/global.css';
+
+function MyApp({ Component, pageProps }) {
+  return (
+    <>
+      <Head>
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@500&display=swap" rel="stylesheet" />
+      </Head>
+      <Component {...pageProps} />
+    </>)
+}
+
+export default MyApp;
+
+```
+
+Peguei essa fonte no google fonts, e utilizei da tag Head para fazer o carregamento dela em todo App.
+
+Caso queira aprofundar nas variadas formas de se utilizar CSS no Next.JS, recomendo essa [seção de NextJS4noobs](https://github.com/caioreix/NextJs4noobs/blob/master/learn/basic/assets-metadata-css/1.md#recursos-metadados-e-css)
+
+Parabéns por ter carregado seus primeiros estilos globais no Next.js.
+
+------------------------
 
 ## Referências
 

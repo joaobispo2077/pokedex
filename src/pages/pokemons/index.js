@@ -1,13 +1,13 @@
-import Head from 'next/head'
+import Head from 'next/head';
 import NextLink from 'next/link';
 import Footer from '../../components/Footer';
 
 export default function Pokemons() {
   return (
     <>
-      <Head>
-        <title>Pokémons</title>
-      </Head>
+
+      <title>Pokémons</title>
+
       <main>
         <header>
           <NextLink href="/">
