@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import NextLink from 'next/link';
+import Footer from '../components/Footer';
 
 export default function Home() {
   return (
@@ -12,9 +13,7 @@ export default function Home() {
           <button>Ver pokémons</button>
         </NextLink>
       </main>
-      <footer>
-        Projeto desenvolvido por seu-nome
-      </footer>
+      <Footer />
     </>
   )
 }

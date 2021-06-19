@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import NextLink from 'next/link';
+import Footer from '../../components/Footer';
 
 export default function Pokemons() {
   return (
@@ -17,9 +18,7 @@ export default function Pokemons() {
           <h1>Lista de pokémons</h1>
         </section>
       </main>
-      <footer>
-        Projeto desenvolvido por seu-nome
-      </footer>
+      <Footer />
     </>
   )
 }
