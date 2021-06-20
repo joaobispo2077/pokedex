@@ -682,6 +682,9 @@ Você acaba de fazer a sua primeira renderização dinâmica no client-side, par
 
 Agora você verá como é simples fazer diferentes renderizações no Next.JS, pois vamos
 refatorar a renderização Client-side dos pokémons para uma renderização Server-side.
+
+Caso não conheça o conceito de Server-side rendering, nos explicamos [aqui](link-do-futuro).
+
 Primeiramente, apagaremos o state, o useEffect e a função que carrega os pokémons, mas também colocaremos que o componente recebe a props "pokemons".
 
 Nosso componente da página pokemons ficará da seguinte forma:
@@ -795,6 +798,230 @@ já vão estar no HTML da origem da página.
 Parabéns por concluir sua primeira renderização no server-side com Next.js.
 
 --------------------------------------------------------------------------------------------------------------------------
+
+### Implementando SSG
+
+#### Geração estática de páginas estáticas
+
+Como sabemos que nossa página de listagem dos 20 primeiros pokémons dificilmente mudará, abre chance
+de implementarmos a geração dessa página no momento de Build da aplicação ao invés do formato atual em que cada vez que
+a página é acessada essa informação é processada pelo servidor. Para saber mais sobre SSG, clique [aqui](link-do-futuro).
+
+Para mudar, basta trocar o nome da nossa função de `getServerSideProps` para `getStaticProps` no arquivo `./src/pages/pokemons/index.js`.
+Apenas com essa mudança está finalizada a implementação de geração de páginas estáticas. Ficará da seguinte forma:
+
+```javascript
+export async function getStaticProps(context) {
+  const response = await fetch('https://pokeapi.co/api/v2/pokemon');
+  const data = await response.json();
+
+  return {
+    props: {
+      pokemons: data.results
+    },
+  }
+}
+
+```
+
+Agora você acaba de implementar a geração estática de páginas estáticas, mas vamos aprofundar na geração dinâmica também!
+
+#### Geração dinâmica de páginas estáticas
+
+Antes de fazermos geração dinâmica de páginas estáticas vamos criar uma página dinâmica,
+mas antes disso vamos alterar a página de listagem de pokemons para que ela tenha um botão com um Link do Next para uma
+página de detalhes de cada pokemon!
+
+```javascript
+import Head from 'next/head';
+import NextLink from 'next/link';
+import Footer from '../../components/Footer';
+
+export default function Pokemons({ pokemons }) {
+
+  return (
+    <>
+      <Head>
+        <title>Pokémons</title>
+      </Head>
+      <main>
+        <header>
+          <NextLink href="/">
+            <button>Ir para a Pokéhome</button>
+          </NextLink>
+        </header>
+        <section>
+          <h1>Lista de pokémons</h1>
+          <ul>
+            {pokemons && pokemons.map(pokemon => (
+              <li key={pokemon.name}>
+                <p>Poke: {pokemon.name}</p>
+                <NextLink
+                  href="/pokemons/[name]"
+                  as={`/pokemons/${pokemon.name}`}
+                >
+                  Ver detalhes
+                </NextLink>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </main>
+      <Footer />
+    </>
+  )
+}
+
+export async function getStaticProps(context) {
+  const response = await fetch('https://pokeapi.co/api/v2/pokemon');
+  const data = await response.json();
+
+  return {
+    props: {
+      pokemons: data.results
+    },
+  }
+}
+
+```
+
+Repare que passamos o href com uma sinalização de "[name]", para indicar que
+será referente a rota dinâmica que criaremos, também passei uma propriedade "as"
+para o componente de Link do Next indicando que queremos ir ao Path referente ao nome do pokemon.
+
+Depois dessa etapa, precisamos criar essa página dinâma com roteamento dinâmico, e a forma que faremos
+será criando um arquivo chamado `[name].js` em `./src/pages/pokemons/[name].js`.
+
+Nesse arquivo retornaremos a função Pokemon que retornará o JSX que será disposto nessa página de detalhes
+do pokemon:
+
+```javascript
+import Head from "next/head";
+import NextLink from 'next/link';
+
+export default function Pokemon({ pokemon }) {
+  return (
+    <div>
+      {pokemon && (
+        <>
+          <Head>
+            <title>{pokemon.name.toUpperCase()}</title>
+          </Head>
+          <NextLink href="/pokemons">
+            <button>Ir para a lista de Pokemon</button>
+          </NextLink>
+          <h1>Nome: {pokemon.name}</h1>
+          <p>Ordem: {pokemon.order}</p>
+          <p>Experiência base: {pokemon.base_experience}</p>
+          <h4>Formas</h4>
+          <ul>
+            {pokemon.forms.length && pokemon
+              .forms.map(form => <li key={form.name}>{form.name}</li>)}
+          </ul>
+        </>
+      )}
+    </div>
+  )
+}
+
+```
+
+Repare que colocamos o operador de curto-circuito para definir ques se a propriedade pokemon existir então
+será renderizado os detalhes do pokemon. E logo abaixo adicionaremos duas funções sendo o `getStaticProps` e o `getStaticPaths`.
+
+No `getStaticProps` pegaremos o nome do pokémon que estará nos parâmetros do contexto da página, e então disparemos uma requisição para API de pokemon
+para termos os dados do detalhe desse pokemon, convertemos para JSON e retornamos com propriedade do componente:
+
+```javascript
+export async function getStaticProps(context) {
+  const { name } = context.params;
+  const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+  const pokemon = await response.json();
+
+  return {
+    props: {
+      pokemon
+    },
+  }
+}
+
+```
+
+Já no `getStaticPaths` retornaremos os caminhos das páginas dinâmicas que queremos renderizar no momento do Build e também passamos
+definimos como `true` o valor da chave fallback, que se estiver como `false` todas páginas dinâmicas que tentarmos acessar que não estiverem nos paths teremos
+como resposta "not found", pois o Next.JS não fara nada a respeito delas. Agora se colocarmos o valor de  `true`
+o Next.JS vai tentar gerar essa página, segue a função do getStaticPaths:
+
+```javascript
+export async function getStaticPaths(context) {
+  // É possível inserir uma lógica que obtém esses caminhos de um banco de dados, API ou até arquivo.
+  return {
+    paths: [
+      { params: { name: 'charmander' } },
+      { params: { name: 'bulbasaur' } },
+      { params: { name: 'squirtle' } },
+    ],
+    fallback: true
+  }
+}
+
+```
+
+Ao fim disso, teremos o seguinte conteúdo no arquivo de `./src/pages/pokemons/[name].js`:
+
+```javascript
+import Head from "next/head";
+import NextLink from 'next/link';
+
+export default function Pokemon({ pokemon }) {
+
+  return (
+    <div>
+      {pokemon && (
+        <>
+          <Head>
+            <title>{pokemon.name.toUpperCase()}</title>
+          </Head>
+          <NextLink href="/pokemons">
+            <button>Ir para a lista de Pokemon</button>
+          </NextLink>
+          <h1>Nome: {pokemon.name}</h1>
+          <p>Ordem: {pokemon.order}</p>
+          <p>Experiência base: {pokemon.base_experience}</p>
+          <h4>Formas</h4>
+          <ul>
+            {pokemon.forms.length && pokemon
+              .forms.map(form => <li key={form.name}>{form.name}</li>)}
+          </ul>
+        </>
+      )}
+    </div>
+  )
+}
+
+export async function getStaticProps(context) {
+  const { name } = context.params;
+  const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+  const pokemon = await response.json();
+
+  return {
+    props: {
+      pokemon
+    },
+  }
+}
+
+export async function getStaticPaths(context) {
+  return {
+    paths: [
+      { params: { name: 'charmander' } },
+      { params: { name: 'bulbasaur' } },
+      { params: { name: 'squirtle' } },
+    ],
+    fallback: true
+  }
+}
+```
 
 ## Referências
 

@@ -18,7 +18,17 @@ export default function Pokemons({ pokemons }) {
         <section>
           <h1>Lista de pokémons</h1>
           <ul>
-            {pokemons && pokemons.map(pokemon => <li key={pokemon.name}><p>Poke: {pokemon.name}</p></li>)}
+            {pokemons && pokemons.map(pokemon => (
+              <li key={pokemon.name}>
+                <p>Poke: {pokemon.name}</p>
+                <NextLink
+                  href="/pokemons/[name]"
+                  as={`/pokemons/${pokemon.name}`}
+                >
+                  Ver detalhes
+                </NextLink>
+              </li>
+            ))}
           </ul>
         </section>
       </main>
@@ -27,7 +37,7 @@ export default function Pokemons({ pokemons }) {
   )
 }
 
-export async function getServerSideProps(context) {
+export async function getStaticProps(context) {
   const response = await fetch('https://pokeapi.co/api/v2/pokemon');
   const data = await response.json();
 
