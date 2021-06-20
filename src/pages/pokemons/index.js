@@ -1,21 +1,8 @@
-import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import NextLink from 'next/link';
 import Footer from '../../components/Footer';
 
-export default function Pokemons() {
-  const [pokemons, setPokemons] = useState([]);
-
-  const handleLoadPokemons = async () => {
-    const response = await fetch('https://pokeapi.co/api/v2/pokemon');
-    const data = await response.json();
-    console.log(data.results);
-    setPokemons(data.results);
-  };
-
-  useEffect(() => {
-    handleLoadPokemons();
-  }, []);
+export default function Pokemons({ pokemons }) {
 
   return (
     <>
@@ -38,4 +25,15 @@ export default function Pokemons() {
       <Footer />
     </>
   )
+}
+
+export async function getServerSideProps(context) {
+  const response = await fetch('https://pokeapi.co/api/v2/pokemon');
+  const data = await response.json();
+
+  return {
+    props: {
+      pokemons: data.results
+    },
+  }
 }

@@ -111,7 +111,21 @@ O formato Server Side Rendering (SSR - Renderização no lado do servidor), cons
 
 Nesse modelo, ao usuário acessar um domínio, é disparada uma requisição para um servidor e o dados da página **em tempo de execução** são gerados no lado do server-side, que envia o HTML completo e pronto com todos dados de navegação necessários para o client-side. E por fim, o navegador só tem o trabalho de baixar e exibir essa página.
 
-No uso do Next.JS, com o uso do `getServerSideProps` (que demonstraremos na prática), é possível implementar facilmente essa renderização no lado do servidor. Assim, elevando SEO, performance e segurança da sua aplicação.
+No uso do Next.JS, com o uso do `getServerSideProps` (que demonstraremos na prática com um projeto), é possível implementar facilmente essa renderização no lado do servidor. Assim, elevando SEO, performance e segurança da sua aplicação.
+
+Nessa função recebemos o contexto, que é um objeto contedo uma chave de parâmetros chamada params (podemos injetar algum id nesses params), também contém outras chaves relacionadas a configuração de preview (preview, previewData) e internacionalização (locale, locales, defaultLocale). E podemos retornar props para o componente do arquivo no qual ela foi declarada, uma opção de revalidate e outra de notFound.
+
+```javascript
+
+export async function getStaticProps(context) {
+  // Algum código no Server-side
+  return {
+    props: {
+      he4rt: 'react4noobs' // valor que poderá ser utilizado nas props do componente.
+    },
+  }
+}
+```
 
 <!-- -criar ilustração para demonstrar o fluxo do SSR -->
 
@@ -655,9 +669,132 @@ export default function Pokemons() {
 
 ```
 
+Para efeitos de comparação com o próximo capítulo, vale a pena dar uma olhada na origem da página do seu navegador! No Chrome,
+Firefox e Opera ao pressionar o atalho `CTRL+U` você abrirá a origem da página e
+poderá constatar que é uma renderização client-side pois embora os nomes dos pokémons
+estarão dispostos VISUALMENTE na página, você não vai encontrá-los no HTML da origem da página.
+
 Você acaba de fazer a sua primeira renderização dinâmica no client-side, parabéns.
 
 -------------------------------------------------------
+
+### Melhorando o SEO com o poderoso Server-side rendering
+
+Agora você verá como é simples fazer diferentes renderizações no Next.JS, pois vamos
+refatorar a renderização Client-side dos pokémons para uma renderização Server-side.
+Primeiramente, apagaremos o state, o useEffect e a função que carrega os pokémons, mas também colocaremos que o componente recebe a props "pokemons".
+
+Nosso componente da página pokemons ficará da seguinte forma:
+
+```javascript
+import Head from 'next/head';
+import NextLink from 'next/link';
+import Footer from '../../components/Footer';
+
+export default function Pokemons({ pokemons }) {
+
+  return (
+    <>
+      <Head>
+        <title>Pokémons</title>
+      </Head>
+      <main>
+        <header>
+          <NextLink href="/">
+            <button>Ir para a Pokéhome</button>
+          </NextLink>
+        </header>
+        <section>
+          <h1>Lista de pokémons</h1>
+          <ul>
+            {pokemons && pokemons.map(pokemon => <li key={pokemon.name}><p>Poke: {pokemon.name}</p></li>)}
+          </ul>
+        </section>
+      </main>
+      <Footer />
+    </>
+  )
+}
+
+```
+
+E para fechar com chave de ouro exportaremos uma função com o nome de `getServerSideProps`,
+pois o Next.JS vai detectar que essa função foi exportada e vai possibilitar
+a página utilizar um mecanismo de Server-side rendering no código por causa que essa função executará
+no lado do servidor.
+
+No corpo dela, faremos um fetch para a API de pokémons, converteremos a resposta em json e retornaremos
+a props "pokemons" contendo o valor dos resultados da API. Ficando dessa forma a função:
+
+```javascript
+export async function getServerSideProps(context) {
+  const response = await fetch('https://pokeapi.co/api/v2/pokemon');
+  const data = await response.json();
+
+  return {
+    props: {
+      pokemons: data.results
+    },
+  }
+}
+
+```
+
+Após essa modificações, o arquivo inteiro da página de pokemons deve estar assim:
+
+```javascript
+import Head from 'next/head';
+import NextLink from 'next/link';
+import Footer from '../../components/Footer';
+
+export default function Pokemons({ pokemons }) {
+
+  return (
+    <>
+      <Head>
+        <title>Pokémons</title>
+      </Head>
+      <main>
+        <header>
+          <NextLink href="/">
+            <button>Ir para a Pokéhome</button>
+          </NextLink>
+        </header>
+        <section>
+          <h1>Lista de pokémons</h1>
+          <ul>
+            {pokemons && pokemons.map(pokemon => <li key={pokemon.name}><p>Poke: {pokemon.name}</p></li>)}
+          </ul>
+        </section>
+      </main>
+      <Footer />
+    </>
+  )
+}
+
+export async function getServerSideProps(context) {
+  const response = await fetch('https://pokeapi.co/api/v2/pokemon');
+  const data = await response.json();
+
+  return {
+    props: {
+      pokemons: data.results
+    },
+  }
+}
+
+```
+
+Para efeitos de comparação com a renderização no client-side, vale a pena dar
+uma olhada na origem da página do seu navegador! No Chrome, Firefox e Opera ao
+pressionar o atalho `CTRL+U` você abrirá a origem da página.
+
+Assim, poderá constatar que é uma renderização Server-side pois todos seus pokemons
+já vão estar no HTML da origem da página.
+
+Parabéns por concluir sua primeira renderização no server-side com Next.js.
+
+--------------------------------------------------------------------------------------------------------------------------
 
 ## Referências
 
