@@ -10,32 +10,28 @@
 >
 > 1. [O que é o Next.JS?](#nextjs-onde-vivem-o-que-comem)
 > 1.2 [Por quê usar Next.JS?](#nextjs-why)
-> 2. [Se é framework, logo é difícil? Não é bem assim.](#framework)
+> 1.3 [Somente o NextJS faz SSR?](#nextjs-why)
+> 1.4 [Se é framework, logo é difícil?](#framework)
 > 3. [Modelos de Renderização](#renderizacao)
 > 3.1 [Single Page Application - SPA](#funcionalidades-spa)
 > 3.2 [Server Side Rendering - SSR](#funcionalidades-ssr)
 > 3.3 [Static Site Generation - SSG](#funcionalidades-ssg)
 > 3.3.1 [Incremental Static Regeneration - ISR](#funcionalidades-ssg-isr)
-> 4. [Outras alternativas](#alternativas)
-> 4.1  [Gatsby](#gatsby)
-> 4.2  [Nuxt.js... espera, isso é Vue.js? Sim!](#nuxt-js)
-> 5. [Hora do código, vamos a prática!](#codigo-next-js)
-> 5.1 [Formas de criar um projeto Next.JS](#create-app)
-> 5.2 [Usando o create-next-app](#create-next-app)
-> 5.2 [Limpando estrutura do projeto](#clean-app)
-> 5.3 [Utilizando o File System Routing](#fsr)
-> 5.4 [Implementando navegação SPA](#spa)
-> 5.5 [Criando componentes](#componentization)
-> 5.6 [Estilização global e adicionando fontes](#stylish)
-> 5.7 [Renderizando dados com CSR](#csr)
-> 5.8 [Recurso de SSR](#ssr)
-> 5.9 [A dádiva do SSG](#ssg)
-> 6 [Extras](#extras)
-> 6.1 [Integrações com a Vercel e a Netlify e o deploy](#integracao-e-deploy)
-> 6.2 [Um pouco mais sobre Serverless](#serverless)
-> 6.3 [Tipagem estática com Typescript](#integracao-typescript)
-> 7. [Conclusão](#conclusao)
-> 8. [Referências](#referências)
+> 4. [Hora do código, vamos a prática com um projeto!](#codigo-next-js)
+> 4.1 [Formas de criar um projeto Next.JS](#create-app)
+> 4.2 [Usando o create-next-app](#create-next-app)
+> 4.2 [Limpando estrutura do projeto](#clean-app)
+> 4.3 [Utilizando o File System Routing](#fsr)
+> 4.4 [Implementando navegação SPA](#spa)
+> 4.5 [Criando componentes](#componentization)
+> 4.6 [Estilização global e adicionando fontes](#stylish)
+> 4.7 [Renderizando dados com CSR](#csr)
+> 4.8 [Recurso de SSR](#ssr)
+> 4.9 [A dádiva do SSG](#ssg)
+> 5 [Extras](#extras)
+> 5.1 [Tipagem estática com Typescript](#integracao-typescript)
+> 6. [[Andamento] - Conclusão](#conclusao)
+> 7. [Referências](#referências)
 
 ## O que é Next.JS?
 
@@ -55,7 +51,11 @@ Atualmente ele é mantido pela Vercel e em seu core há como principal proposta 
 
 - *Suporte ao Typescript* ->
 
-## Frameworks são complexos em sua construção, mas em seu uso?
+### Somente o Next.JS faz SSR?
+
+Não, existem diversos outros frameworks e bibliotecas como o Angular, o Nuxt.JS baseado em Vue.JS e o Gatsby que também é baseado em React.JS como o Next.JS.
+
+### Frameworks são complexos em sua construção, mas e em seu uso?
 
 A dificuldade que você enfrentará nas tecnologias que for aprender será sempre relativa ao seu tempo de experiência em determinado ecossistema, a sua facilidade de aprender coisas novas e dentre outros fatores, mas normalmente, corre um equívoco sobre frameworks serem majoritariamente mais difíceis.
 
