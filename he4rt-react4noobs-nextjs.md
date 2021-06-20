@@ -543,7 +543,98 @@ Parabéns por ter carregado seus primeiros estilos globais no Next.js.
 
 ### Renderização na prática com Client-side-rendering
 
-Finalmente, alcançamos nossa primeira renderização com cliente-side-renderiza, mas não é muito diferente do que você provavelmente já conheceu no React.JS.
+Finalmente, alcançamos a nossa primeira renderização com cliente-side-rendering, mas não é muito diferente do que você provavelmente já conheceu no React.JS.
+
+No arquivo `./src/pages/pokemons/index.js` vamos importar o useState e o useEffect, para no useState criarmos nosso estado de pokémons e no useEffect quando o componente renderizar pela primeira vez chamaremos uma função que dispara uma requisição HTTP para API de pokémons.
+
+```javascript
+import { useState, useEffect } from 'react';
+// Ao final da explicação mostrarei como ficou o arquivo inteiro.
+
+```
+
+E então criremos o estado onde guardaremos esses pokémons:
+
+```javascript
+  const [pokemons, setPokemons] = useState([]);
+
+```
+
+E após isso escreveremos uma função assíncrona que usará a fetch API para fazer uma requisição de tipo GET na API "pokeapi" e esperaremos pelo resultado, quando obtermos a resposta, iremos converte-lá para json e por fim usaremos o setPokemons para armazenar os dados da lista de pokémons:
+
+```javascript
+  const handleLoadPokemons = async () => {
+    const response = await fetch('https://pokeapi.co/api/v2/pokemon');
+    const data = await response.json();
+    console.log(data.results);
+    setPokemons(data.results);
+  };
+
+  useEffect(() => {
+    handleLoadPokemons();
+  }, []);
+
+```
+
+E a última alteração será modificar o nosso JSX, para exibir os 20 pokémons que a API retornará, basicamente vou criar uma lista não ordenada no mesmo nível do título "Lista de pokémons" e abrirei a síntaxe de javascript colocando uma condicional de que se o estado de pokemons não é um valor falsy (valor falso) então deverá ocorrer uma iteração sobre os pokémons e para cada pokémon retornará uma li com um parágrafo escrito "Poke: " e o nome do pokémon. Da seguinte forma:
+
+```javascript
+  <ul>
+    {pokemons && pokemons.map(pokemon => <li key={pokemon.name}><p>Poke: {pokemon.name}</p></li>)}
+  </ul>
+
+```
+
+E agora, ficamos com o arquivo `./src/pages/pokemons/index.js` da seguinte forma:
+
+```javascript
+import { useState, useEffect } from 'react';
+import Head from 'next/head';
+import NextLink from 'next/link';
+import Footer from '../../components/Footer';
+
+export default function Pokemons() {
+  const [pokemons, setPokemons] = useState([]);
+
+  const handleLoadPokemons = async () => {
+    const response = await fetch('https://pokeapi.co/api/v2/pokemon');
+    const data = await response.json();
+    console.log(data.results);
+    setPokemons(data.results);
+  };
+
+  useEffect(() => {
+    handleLoadPokemons();
+  }, []);
+
+  return (
+    <>
+      <Head>
+        <title>Pokémons</title>
+      </Head>
+      <main>
+        <header>
+          <NextLink href="/">
+            <button>Ir para a Pokéhome</button>
+          </NextLink>
+        </header>
+        <section>
+          <h1>Lista de pokémons</h1>
+          <ul>
+            {pokemons && pokemons.map(pokemon => <li key={pokemon.name}><p>Poke: {pokemon.name}</p></li>)}
+          </ul>
+        </section>
+      </main>
+      <Footer />
+    </>
+  )
+}
+
+```
+
+Você acaba de fazer a sua primeira renderização dinâmica no client-side, parabéns.
+
+-------------------------------------------------------
 
 ## Referências
 
