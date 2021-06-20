@@ -33,6 +33,7 @@
 > 6 [Extras](#extras)
 > 6.1 [Integrações com a Vercel e a Netlify e o deploy](#integracao-e-deploy)
 > 6.2 [Um pouco mais sobre Serverless](#serverless)
+> 6.3 [Tipagem estática com Typescript](#integracao-typescript)
 > 7. [Conclusão](#conclusao)
 > 8. [Referências](#referências)
 
@@ -1087,7 +1088,40 @@ export async function getStaticProps(context) {
 
  Parabéns, você mandou bem, acaba de explorar os principais modelos de renderização do Next.JS, se mantenha estudando, incremente seu projeto e poste nas redes sociais marcando os canais de comunicação da he4rt!
 
-## Referências
+## Tipagem estática com Next.JS
+
+Para começar um projet Next.JS com TypeScript basta utilizar um dos seguintes comandos:
+
+```
+npx create-next-app --ts
+# ou
+yarn create next-app --typescript
+```
+
+Agora para adicionar TypeScript a um projeto Next.JS existente acredito que uma boa forma dde se fazer é instalando o typescript e as tipagens do React como dependência de desenvolvimento:
+
+```
+npm install --dev typescript @types/react
+# ou
+yarn add --dev typescript @types/react
+
+```
+
+Após isso, crie um arquivo .ts ou .tsx na pasta pages, pode ser um "teste.ts" ou "teste.tsx" que na próxima vez que você rodar o script de "dev":
+
+```
+npm run dev
+# ou
+yarn dev
+```
+
+O Next.JS irá criar um tsconfig.json e um next.d.ts.
+
+E pronto já poderá adicionar tipagem estática a sua base de código Javascript.
+
+---------------------------------------------------------------
+
+## Referências utilizadas
 
 - [Documentação oficial do Next.JS](https://nextjs.org/docs/getting-started)
 - [Documentação oficial do Next.JS traduzida para português pelo integrante Caio da he4rt](https://github.com/caioreix/NextJs4noobs)
