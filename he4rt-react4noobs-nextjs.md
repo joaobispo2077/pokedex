@@ -80,6 +80,29 @@ O modelo de SPA surgiu como uma solução de melhoria da usabilidade e dinamismo
 
 Um dos principais tradeoffs desse modelo que utiliza CSR é uma depreciação no SEO (Search Engine Optimization, Otimização para Mecanismos de Busca), i.e. práticas que tem como objetivo alcançar bons rankings em mecanismos de buscas para obter maior tráfego. O SEO acaba sendo menos eficiente com CSR por causa que alguns robôs de indexação de conteúdo nos mecanismo de busca, como crawlers, não conseguem indexar tão bem por dificuldades relacionadas a baixar o Javascript.
 
+Tal como no React, pode ser feito com o uso de useState, useEffect e uma função assíncrona, como no seguinte componente funcional:
+
+```javascript
+export default function AnyComponent() {
+  const [anythings, setAnythings] = useState(null);
+
+  const handleGetAnythings = async () => {
+    const response = await fetch('https://anyapi');
+    const data = await response.json();
+     setAnythings(data);
+  };
+
+  useEffect(() => {
+    handleGetAnythings();
+  }, []);
+
+return (
+    <div>
+      {anythings && (<div>anythings</div>)}
+    </div>
+}
+```
+
 <!-- -criar ilustração para demonstrar o fluxo do CSR -->
 
 ### Server Side Rendering
