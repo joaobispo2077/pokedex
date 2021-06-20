@@ -45,5 +45,6 @@ export async function getStaticProps(context) {
     props: {
       pokemons: data.results
     },
+    revalidate: 15
   }
 }

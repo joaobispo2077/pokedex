@@ -678,7 +678,7 @@ Você acaba de fazer a sua primeira renderização dinâmica no client-side, par
 
 -------------------------------------------------------
 
-### Melhorando o SEO com o poderoso Server-side rendering
+### Melhorando o SEO com o poderoso Server-side rendering (SSR)
 
 Agora você verá como é simples fazer diferentes renderizações no Next.JS, pois vamos
 refatorar a renderização Client-side dos pokémons para uma renderização Server-side.
@@ -799,7 +799,7 @@ Parabéns por concluir sua primeira renderização no server-side com Next.js.
 
 --------------------------------------------------------------------------------------------------------------------------
 
-### Implementando SSG
+### Implementando a geração de páginas estáticas (SSG)
 
 #### Geração estática de páginas estáticas
 
@@ -1022,6 +1022,70 @@ export async function getStaticPaths(context) {
   }
 }
 ```
+
+### Regeneração incremental de páginas estáticas (ISR)
+
+ Em nosso último modelo de renderização, veremos que caso exista chance da nossa listagem dos primeiros 20 pokemons mudar antes do próximo Build, significa que se não atualizarmos nossa aplicação, teremos dados desatualizados!
+
+ Então, para isso não ocorrer, vamos definir um intervalo em segundos que para após a primeira solicitação daquela página a cada vez que aquele tempo decorrer a página em questão será gerada novamente em tempo de execução da aplicação e em background com o benefício de que se 2 usuários acessarem o mesmo conteúdo, ele será gerado novamente apenas 1 única vez.
+
+ Para fazer isso basta retornamos a propriedade revalidate no `getStaticProps` com o intervalo de tempo que queremos que a página será gerada novamente, então nosso arquivo `./src/pages/pokemons/index.js` ficará da seguinte forma (repare na função getStaticProps retornando um revalidate de 15 segundos):
+
+ ```javascript
+ import Head from 'next/head';
+import NextLink from 'next/link';
+import Footer from '../../components/Footer';
+
+export default function Pokemons({ pokemons }) {
+
+  return (
+    <>
+      <Head>
+        <title>Pokémons</title>
+      </Head>
+      <main>
+        <header>
+          <NextLink href="/">
+            <button>Ir para a Pokéhome</button>
+          </NextLink>
+        </header>
+        <section>
+          <h1>Lista de pokémons</h1>
+          <ul>
+            {pokemons && pokemons.map(pokemon => (
+              <li key={pokemon.name}>
+                <p>Poke: {pokemon.name}</p>
+                <NextLink
+                  href="/pokemons/[name]"
+                  as={`/pokemons/${pokemon.name}`}
+                >
+                  Ver detalhes
+                </NextLink>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </main>
+      <Footer />
+    </>
+  )
+}
+
+export async function getStaticProps(context) {
+  const response = await fetch('https://pokeapi.co/api/v2/pokemon');
+  const data = await response.json();
+
+  return {
+    props: {
+      pokemons: data.results
+    },
+    revalidate: 15
+  }
+}
+
+ ```
+
+ Parabéns, você mandou bem, acaba de explorar os principais modelos de renderização do Next.JS, se mantenha estudando, incremente seu projeto e poste nas redes sociais marcando os canais de comunicação da he4rt!
 
 ## Referências
 
