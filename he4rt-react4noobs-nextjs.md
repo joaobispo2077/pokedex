@@ -51,7 +51,6 @@ Se você quiser se aprofundar ainda mais sobre cada um desses temas e sobre o fu
       <li><a href="#">Adicionando tipagem estática com Typescript em um projeto Next.JS</a></li>
   </ol>
   <li><a href="#">Conclusão</a></li>
-  <li><a href="#">Conclusão</a></li>
 </ol>
 
 <a href="#">Próximo -></a>
@@ -167,7 +166,9 @@ Esse modelo Incremental Static Regeneration (ISR - Regeneração Estática Incre
 
 ## Hora do código
 
-Agora que entendemos um pouco sobre o que é o Next.JS, para que ele serve, quais são os principais modelos de renderização presentes Next.JS. Finalmente, vamos ver tudo isso na prática e vou cobrir cada conceito em seu momento adequado, começando com como fazer o Setup do projeto.
+Agora que entendemos um pouco sobre o que é o Next.JS na aba de conceitos. como para que ele serve, quais são os principais modelos de renderização presentes Next.JS. Finalmente, vamos ver tudo isso na prática e vou cobrir cada conceito em seu momento adequado, começando com como fazer o Setup do projeto.
+
+Caso tenha dúvidas sobre sua implementação e queira comparar com o projeto original, ele está disponível nessa [branch](https://github.com/joaobispo2077/pokedex/tree/contrib/he4rt-react4noobs).
 
 ### Formas de criar um projeto Next.JS
 
