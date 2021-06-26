@@ -4,19 +4,26 @@
   </a>
 </p>
 
+Aviso:
+Esta seção tem como objetivo ser um início para que você consiga começar a desenvolver aplicações Next.js
+
+Se você quiser se aprofundar ainda mais sobre cada um desses temas e sobre o funcionamento do Next.js em si, sinta-se livre para visitar o [NextJs4noobs](https://github.com/caioreix/NextJs4noobs)!
+
 # Next.js
 
 > Vá ponto a ponto ou vá direto ao que você está buscando! :
 >
-> 1. [O que é o Next.JS?](#nextjs-onde-vivem-o-que-comem)
-> 1.2 [Por quê usar Next.JS?](#nextjs-why)
-> 1.3 [Somente o NextJS faz SSR?](#nextjs-why)
-> 1.4 [Se é framework, logo é difícil?](#framework)
+1. [O que é o Next.JS?](#nextjs-o-que-e)
+   1.2 [Por quê usar Next.JS?](#nextjs-porque)
+   1.3 [Somente o NextJS faz SSR?](#nextjs-concorrencia)
+   1.4 [Se é framework, logo é difícil?](#framework)
+>
 > 3. [Modelos de Renderização](#renderizacao)
 > 3.1 [Single Page Application - SPA](#funcionalidades-spa)
 > 3.2 [Server Side Rendering - SSR](#funcionalidades-ssr)
 > 3.3 [Static Site Generation - SSG](#funcionalidades-ssg)
 > 3.3.1 [Incremental Static Regeneration - ISR](#funcionalidades-ssg-isr)
+
 > 4. [Hora do código, vamos a prática com um projeto!](#codigo-next-js)
 > 4.1 [Formas de criar um projeto Next.JS](#create-app)
 > 4.2 [Usando o create-next-app](#create-next-app)
@@ -49,11 +56,11 @@ Atualmente ele é mantido pela Vercel e em seu core há como principal proposta 
 
 - *API endpoints* -> Uma estrutura de desenvolvimento Serverless intuitiva.
 
-- *Suporte ao Typescript* ->
+- *Suporte ao Typescript* -> Permite que você adicione facilmente tipagem estática ao seu código.
 
 ### Somente o Next.JS faz SSR?
 
-Não, existem diversos outros frameworks e bibliotecas como o Angular, o Nuxt.JS baseado em Vue.JS e o Gatsby que também é baseado em React.JS como o Next.JS.
+Não, existem diversas ferramentas como frameworks e bibliotecas como o Angular, o Nuxt.JS (baseado em Vue.JS), Gatsby (também é baseado em React.JS como o Next.JS) e muitas outras tecnologias que te permitem implementar esse modelo de renderização.
 
 ### Frameworks são complexos em sua construção, mas e em seu uso?
 
