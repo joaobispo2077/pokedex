@@ -14,9 +14,9 @@ Se você quiser se aprofundar ainda mais sobre cada um desses temas e sobre o fu
 > Vá ponto a ponto ou vá direto ao que você está buscando! :
 >
 1. [O que é o Next.JS?](#nextjs-o-que-e)
-   1.2 [Por quê usar Next.JS?](#nextjs-porque)
-   1.3 [Somente o NextJS faz SSR?](#nextjs-concorrencia)
-   1.4 [Se é framework, logo é difícil?](#framework)
+   i. [Por quê usar Next.JS?](#nextjs-porque)
+   i. [Somente o NextJS faz SSR?](#nextjs-concorrencia)
+   i. [Se é framework, logo é difícil?](#framework)
 >
 > 3. [Modelos de Renderização](#renderizacao)
 > 3.1 [Single Page Application - SPA](#funcionalidades-spa)
@@ -40,11 +40,13 @@ Se você quiser se aprofundar ainda mais sobre cada um desses temas e sobre o fu
 > 6. [[Andamento] - Conclusão](#conclusao)
 > 7. [Referências](#referências)
 
+<a href="#">Próximo -></a>
+
 ## O que é Next.JS?
 
 O Next.JS é um framework popular de desenvolvimento front-end baseado em React e "pronto para produção", que visa acelerar o processo de construção de uma interface.
 
-Atualmente ele é mantido pela Vercel e em seu core há como principal proposta elevar a produtividade de um desenvolvedor com setup de zero configuração para implementações de internacionalização, endpoint, suporte ao roteamento, Typescript, renderização ao lado do servidor, hybrid static e entre outras que podem melhorar a experiência de desenvolvimento como utilizar uma única tecnologia para desenvolver um web app completo.
+Atualmente ele é mantido pela Vercel e em seu core há como principal proposta elevar a produtividade de um desenvolvedor com setup de zero configuração e implementações simplificadas de internacionalização, endpoints, suporte ao roteamento, Typescript, renderização ao lado do servidor, hybrid static e entre outras que podem melhorar a experiência de desenvolvimento como utilizar uma única tecnologia para desenvolver um web app completo.
 
 ### Por quê utilizá-lo?
 
@@ -1128,8 +1130,23 @@ E pronto já poderá adicionar tipagem estática a sua base de código Javascrip
 
 ---------------------------------------------------------------
 
+## Conclusão
+
+Nesse artigo fomos do absoluto início, que seria da definição do Next.js e passamos tanto por conceitos quanto por implementações com essa ferramenta, parabéns por ter chegado até aqui e espero que tenhamos contribuído com o seu conhecimento.
+
+Continue compartilhando conhecimento participando da comunidade da he4rt! Saiba que sempre tem alguém que você poderá ajudar.
+
+Caso tenha ficado alguma dúvida em relação ao projeto final, fica de referência a [branch](https://github.com/joaobispo2077/pokedex/tree/contrib/he4rt-react4noobs) do projeto com cada commit em que foi criado.
+
 ## Referências utilizadas
 
 - [Documentação oficial do Next.JS](https://nextjs.org/docs/getting-started)
 - [Documentação oficial do Next.JS traduzida para português pelo integrante Caio da he4rt](https://github.com/caioreix/NextJs4noobs)
-<!-- Abrir o histórico e adicionar todas referencias -->
+
+<p align="center">Made with :purple_heart:</p>
+
+<p align="center">
+  <a href="https://github.com/he4rt/4noobs" target="_blank">
+    <img src="../../assets/global/footer-4noobs.svg" width="380">
+  </a>
+</p>
